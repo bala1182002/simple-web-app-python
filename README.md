@@ -4,7 +4,8 @@
 
 ## Steps
 
-Create a cloud9 environment. Attach 'Instance Profile'  with Admin access to the Cloud9 EC2 instance.
+Create a cloud9 environment. 
+Attach 'Instance Profile'  with Admin access to the Cloud9 EC2 instance.
 
 Clone this git repository in Cloud9 IDE.
 
@@ -47,6 +48,15 @@ eksctl version
 
 ```
 
+Install kubectl
+
+```bash
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin
+
+```
+
 Create EKS cluster through eksctl Cli
 
 ```bash
@@ -64,3 +74,4 @@ eksctl create cluster \
 
 ```
 
+Edit the deployment.yaml file with the image endpoint.
