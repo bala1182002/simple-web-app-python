@@ -74,4 +74,46 @@ eksctl create cluster \
 
 ```
 
-Edit the deployment.yaml file with the image endpoint.
+Edit the deployment.yaml file with the ECR image URI.
+
+
+Apply the manifest file.
+```bash
+cd ~/environment/eks-workshop/
+kubectl apply -f deployment.yaml
+
+kubectl get pods -o wide
+
+kubectl get svc
+
+```
+
+Test the application with the Network Load Balancer.
+
+
+## Configuring Container insights.
+
+Attach "CloudWatchAgentServerPolicy" policy to the instance profile attached to the Kubernetes worker nodes through console.
+
+
+```bash
+curl https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/quickstart/cwagent-fluentd-quickstart.yaml | sed "s/{{cluster_name}}/<cluster-name>/;s/{{region_name}}/<region>/" | kubectl apply -f -   
+
+kubectl get pods --all-namespaces -o wide 
+
+kubectl describe pod <pod-name> -n amazon-cloudwatch
+
+kubectl logs <pod-name> -n amazon-cloudwatch
+
+```
+
+## Deleting resources.
+
+Remove the extra policy added to the instance profile.
+
+```bash
+eksctl delete cluster <cluster name> -r <region>
+
+```
+
+Remove Cloud9 environment.
