@@ -35,6 +35,6 @@ spec:
     spec:
       containers:
       - name: hello-python
-        image: 921983650545.dkr.ecr.ap-southeast-1.amazonaws.com/sample:latest
+        image: <ecr endpoint>
         ports:
         - containerPort: 5000

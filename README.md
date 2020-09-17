@@ -1,1 +1,66 @@
 # eks-workshop
+
+
+
+## Steps
+
+Create a cloud9 environment. Attach 'Instance Profile'  with Admin access to the Cloud9 EC2 instance.
+
+Clone this git repository in Cloud9 IDE.
+
+```bash
+git clone https://github.com/anchit-nishant/eks-workshop.git
+```
+
+Create a docker image
+
+```bash
+cd ~/environment/eks-workshop/
+docker build -t app .
+docker images
+```
+Run the image locally
+
+```bash
+docker run -d -p 5000:5000 app
+curl localhost:5000
+```
+
+Create ECR resource in AWS and push your image.
+
+```bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <ecr endpoint>
+
+docker tag app:latest <ecr endpoint>/<repo Name>:latest
+
+docker push <ecr endpoint>/<repo Name>:latest
+```
+
+Setup eksctl
+
+```bash
+aws --version
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+
+```
+
+Create EKS cluster through eksctl Cli
+
+```bash
+eksctl create cluster \
+    --name <cluster-name> \
+    --version 1.17 \
+    --region <region> \
+    --nodegroup-name linux-nodes \
+    --nodes 3 \
+    --nodes-min 1 \
+    --nodes-max 4 \
+    --ssh-access \
+    --ssh-public-key <keypair name> \
+    --managed
+
+```
+
